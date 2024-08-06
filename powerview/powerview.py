@@ -2585,20 +2585,27 @@ displayName=New Group Policy Object
             )
         dacledit.remove()
 
-    def add_domainobjectacl(self, targetidentity, principalidentity, rights="fullcontrol", rights_guid=None, ace_type="allowed", inheritance=False):
+    def add_domainobjectacl(self, targetidentity, principalidentity, rights="fullcontrol", rights_guid=None, ace_type="allowed", inheritance=False,searchbase=None, args=None):
+
+        if not searchbase:
+            searchbase = args.searchbase if hasattr(args, 'searchbase') and args.searchbase else self.root_dn 
+
+        logging.debug(f"[Get-DomainUser] Using search base: {searchbase}")     
+
         # verify if target identity exists
-        target_entries = self.get_domainobject(identity=targetidentity, properties=['objectSid', 'distinguishedName', 'sAMAccountName','nTSecurityDescriptor'], sd_flag=0x04)
+        target_entries = self.get_domainobject(identity=targetidentity, properties=['objectSid', 'distinguishedName', 'sAMAccountName','nTSecurityDescriptor'], sd_flag=0x04, searchbase=searchbase)
         
         target_dn = None
         target_sAMAccountName = None
         target_SID = None
         
+
         if len(target_entries) == 0:
             logging.error('[Add-DomainObjectACL] Target Identity object not found in domain')
             return
         elif len(target_entries) > 1:
-            logging.error("[Add-DomainObjectACL] More then one target identity found")
-            return
+            logging.error("[Add-DomainObjectACL] More then one target identity found")         
+            #return
 
         target_dn = target_entries[0].get("dn") #target_DN
         target_sAMAccountName = target_entries[0].get("attributes").get("sAMAccountName") #target_sAMAccountName
