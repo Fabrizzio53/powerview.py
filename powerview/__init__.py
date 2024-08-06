@@ -393,7 +393,8 @@ def main():
                                             rights=pv_args.rights,
                                             rights_guid=pv_args.rights_guid,
                                             ace_type=pv_args.ace_type,
-                                            inheritance=pv_args.inheritance
+                                            inheritance=pv_args.inheritance,
+                                            searchbase=pv_args.searchbase
                                         )
                                     else:
                                         powerview.add_domainobjectacl(
@@ -402,7 +403,8 @@ def main():
                                             rights=pv_args.rights,
                                             rights_guid=pv_args.rights_guid,
                                             ace_type=pv_args.ace_type,
-                                            inheritance=pv_args.inheritance
+                                            inheritance=pv_args.inheritance,
+                                            searchbase=pv_args.searchbase
                                         )
                                 else:
                                     logging.error('-TargetIdentity , -PrincipalIdentity flags are required')
