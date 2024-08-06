@@ -570,6 +570,7 @@ def powerview_arg_parse(cmd):
     # add domain object acl
     add_domainobjectacl_parser = subparsers.add_parser('Add-DomainObjectAcl', aliases=['Add-ObjectAcl'], exit_on_error=False)
     add_domainobjectacl_parser.add_argument('-TargetIdentity', action='store', required=True, const=None, dest='targetidentity', type=lambda value: escape_filter_chars_except_asterisk(value))
+    add_domainobjectacl_parser.add_argument('-SearchBase', action='store', dest='searchbase', type=lambda value: escape_filter_chars_except_asterisk(value))
     add_domainobjectacl_parser.add_argument('-PrincipalIdentity', action='store', required=True, const=None, dest='principalidentity', type=lambda value: escape_filter_chars_except_asterisk(value))
     add_domainobjectacl_parser.add_argument('-Rights', action='store',  dest='rights', choices=['immutable','fullcontrol', 'resetpassword', 'writemembers', 'dcsync'], nargs='?', default='fullcontrol', type=str.lower)
     add_domainobjectacl_parser.add_argument('-RightGUID', action='store', dest='rights_guid', type = str.lower)
